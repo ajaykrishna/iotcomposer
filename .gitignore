@@ -1,1 +1,17 @@
+# Code
+logs/
+target/
+data/output/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Intellij
 .idea/
+*.iml
+*.iws
+
+#checkstyle config
+/.checkstyle
