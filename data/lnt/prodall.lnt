@@ -1,0 +1,7 @@
+module prodall(lightsensor,thermostat) with "get" is 
+process prod [display:any,increase:any,decrease:any] is 
+par
+increase, decrease ->day[increase,decrease]|| 
+increase, decrease ->thermo[increase,decrease,display]end par
+end process
+end module

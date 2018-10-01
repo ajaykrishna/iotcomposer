@@ -1,0 +1,14 @@
+[
+    {
+        "id": "tv-phone",
+        "source": "Phone#TV_ON",
+        "target": "TV#TV_ON",
+        "type": "STRONG"
+    },
+    {
+        "id": "tv-phone",
+        "source": "Phone#TV_OFF",
+        "target": "TV#TV_OFF",
+        "type": "WEAK"
+    }
+]

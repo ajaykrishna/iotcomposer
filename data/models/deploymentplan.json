@@ -1,0 +1,56 @@
+{
+  "objects" : [ "VoId_121_Savoc", "VoId_126_Savoc", "VoId_135_Savoc" ],
+  "bindings" : [ {
+    "id" : "xbHSv",
+    "source" : "VoId_135_Savoc@on",
+    "target" : "VoId_135_Savoc@on",
+    "type" : "WEAK"
+  }, {
+    "id" : "bXJR2",
+    "source" : "VoId_135_Savoc@off",
+    "target" : "VoId_135_Savoc@off",
+    "type" : "WEAK"
+  }, {
+    "id" : "m4HQN",
+    "source" : "VoId_121_Savoc@alert",
+    "target" : "VoId_121_Savoc@alert",
+    "type" : "STRONG"
+  } ],
+  "steps" : [ {
+    "id" : "cDnRp",
+    "element" : "VoId_126_Savoc",
+    "operation" : "ADD"
+  }, {
+    "id" : "VDD6G",
+    "element" : "VoId_135_Savoc",
+    "operation" : "ADD"
+  }, {
+    "id" : "nVS4e",
+    "element" : "VoId_121_Savoc",
+    "operation" : "ADD"
+  }, {
+    "id" : "dvbWW",
+    "element" : "xbHSv",
+    "operation" : "BIND"
+  }, {
+    "id" : "Et8NI",
+    "element" : "bXJR2",
+    "operation" : "BIND"
+  }, {
+    "id" : "dBhcH",
+    "element" : "m4HQN",
+    "operation" : "BIND"
+  }, {
+    "id" : "6hY2U",
+    "element" : "VoId_126_Savoc",
+    "operation" : "START"
+  }, {
+    "id" : "WcuNA",
+    "element" : "VoId_135_Savoc",
+    "operation" : "START"
+  }, {
+    "id" : "yd0SS",
+    "element" : "VoId_121_Savoc",
+    "operation" : "START"
+  } ]
+}

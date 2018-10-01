@@ -1,0 +1,11 @@
+module flower with "get" is 
+process flower_idle [increase:any,decrease:any] is 
+loop 
+select 
+increase
+[] 
+decrease
+end select
+end loop
+end process
+end module

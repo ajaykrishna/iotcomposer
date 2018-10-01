@@ -1,0 +1,12 @@
+[ {
+    "id" : "dayincrease",
+    "source" : "lightsensor-increase",
+    "target" : "thermostat-increase",
+    "type" : "WEAK"
+  }, {
+    "id" : "nightdecrease",
+    "source" : "lightsensor-decrease",
+    "target" : "thermostat-decrease",
+    "type" : "WEAK"
+  } 
+] 

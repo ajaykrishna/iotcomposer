@@ -1,0 +1,14 @@
+module thermostat with "get" is 
+ process thermo[increase:any,decrease:any,display:any] is 
+  select
+  increase; 
+  thermo[increase,decrease,display] 
+  []
+  decrease; 
+  thermo[increase,decrease,display] 
+  []
+  display; 
+  thermo[increase,decrease,display] 
+  end select
+ end process 
+end module

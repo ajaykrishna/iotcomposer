@@ -1,0 +1,38 @@
+{
+    "id":"philipshue",
+    "interface":{
+      "networkin":["switchon", "switchoff"],
+      "networkout":[],
+      "physicalin":[],
+      "physicalout":[]
+    },
+    "lts":{
+      "state": [
+        {
+          "id": "off",
+          "transition": [
+            {"target": "on", "action":"switchon"}
+          ]
+        },
+        {
+          "id": "on",
+          "transition": [
+            {"target": "off", "action":"switchoff"}
+          ]
+        }
+      ],
+      "initialstate":"off",
+      "action":[
+        {
+          "label":"switchon",
+          "interface":["switchon"],
+          "type":[]
+        },
+        {
+          "label":"switchoff",
+          "interface":["switchoff"],
+          "type":[]
+        }
+      ]
+    }
+  }

@@ -1,0 +1,9 @@
+% CAESAR_OPEN_OPTIONS="-silent -warning"
+
+% CAESAR_OPTIONS="-more cat"
+
+"prodflowermain.bcg" = generation of "prodflowermain.lnt";
+
+"prodhidemain.bcg" = generation of "prodhidemain.lnt";
+
+% bcg_open "prodflowermain.bcg" bisimulator -equal -branching -diag "prodhidemain.bcg"

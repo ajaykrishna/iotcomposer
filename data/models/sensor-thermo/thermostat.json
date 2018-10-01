@@ -1,0 +1,28 @@
+{
+    "id":"thermostat",
+    "appInterfaces":[{
+      "id" : "increase",
+      "type" : "NETWORKIN"
+    }, {
+      "id" : "decrease",
+      "type" : "NETWORKIN"
+    }, {
+      "id" : "display",
+      "type" : "NETWORKOUT"
+    }],
+    "lts":{
+      "states": [
+        {
+          "id": "thermo",
+          "transitions": [
+            {"target": "thermo", "action":"increase"},
+            {"target": "thermo", "action":"decrease"},
+            {"target": "thermo", "action":"display"}
+          ]
+        }
+      ],
+      "initialState":"thermo",
+      "actions":[
+     	"increase", "decrease", "display"]
+    }
+  }

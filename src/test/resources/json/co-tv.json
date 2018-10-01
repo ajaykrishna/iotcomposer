@@ -1,0 +1,29 @@
+{
+  "id" : "TV",
+  "appInterfaces" : [ {
+    "id" : "TV_ON",
+    "type" : "NETWORKIN"
+  }, {
+    "id" : "TV_OFF",
+    "type" : "NETWORKOUT"
+  } ],
+  "lts" : {
+    "states" : [ {
+      "id" : "State_ON",
+      "transitions" : [ {
+        "source" : "State_ON",
+        "target" : "State_OFF",
+        "action" : "TV_OFF"
+      } ]
+    }, {
+      "id" : "State_OFF",
+      "transitions" : [ {
+        "source" : "State_OFF",
+        "target" : "State_ON",
+        "action" : "TV_ON"
+      } ]
+    } ],
+    "initialState" : "State_OFF",
+    "actions" : [ "TV_ON", "TV_OFF" ]
+  }
+}

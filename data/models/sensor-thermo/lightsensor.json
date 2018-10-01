@@ -1,0 +1,28 @@
+{
+    "id":"lightsensor",
+    "appInterfaces":[{
+      "id" : "increase",
+      "type" : "NETWORKOUT"
+    }, {
+      "id" : "decrease",
+      "type" : "NETWORKOUT"
+    }],
+    "lts":{
+      "states": [
+        {
+          "id": "day",
+          "transitions": [
+            {"target": "night", "action":"decrease"}
+          ]
+        },
+        {
+          "id": "night",
+          "transitions": [
+            {"target": "day", "action":"increase"}
+          ]
+        }
+      ],
+      "initialState":"day",
+      "actions":["increase", "decrease"]
+    }
+  }
