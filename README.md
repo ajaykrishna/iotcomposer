@@ -3,14 +3,14 @@ IoT Composer
 IoT Composer aims at providing users realiable, formally verified
 service composition and deployment of IoT services. 
 
-IoT Composer provides an easy to use web interface to verify and 
+IoT Composer provides an easy to use web interface to compose, verify and deploy IoT applications.
 
 Usage
 ===============================
 IoT Composer web app is available for download as a web archive (WAR). 
 Hosting of the web app requires [Apache Tomcat 8.0](https://tomcat.apache.org/download-80.cgi). 
 
-[**Download IoT Composer**](https://ajaykrishna.github.io/iotcomposer/downloads/iotcomposer.war) 
+[**View IoT Composer Code**](https://github.com/ajaykrishna/iotcomposer) 
 
 Once you have the web app running, you can access the application 
 using the following web page (assuming tomcat is running locally on port 8080)
