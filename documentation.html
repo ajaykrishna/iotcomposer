@@ -40,7 +40,7 @@
           <li><a href="index.html"><i class="fa fa-home"></i> Home</a></li>
           <li><a href="tour.html"><i class="fa fa-video-camera"></i> Tour</a></li>
           <li class="active"><a href="documentation.html"><i class="fa fa-archive"></i> Documentation</a></li>
-          <li><a href="downloads.html"><i class="fa fa-arrow-circle-o-down"></i> Downloads</a></li>
+          <!--<li><a href="downloads.html"><i class="fa fa-arrow-circle-o-down"></i> Downloads</a></li> -->
           <li><a href="about.html"><i class="fa fa-group"></i> About</a></li>
         </ul>
       </div>
@@ -49,36 +49,30 @@
   <div class="container">
 
     <h2>Installation</h2>
-
-    <p>In addition to the IoT composer distribution (see <a href="downloads.html">here</a>) you need to install:
+    <p>IoT composer is distributed as a Web Archive (WAR). The project uses <a href="https://maven.apache.org/">Apache Maven to generate WAR</a>.
+    The latest version of the WAR can be found <a href="#">here</a>.</p>
+    <p>In addition to the IoT composer distribution (WAR), the following components are required for local installation: </p>
       <ul>
-        <li>Java RE<br />
-          <em>This is needed to transform IoT object models into the
-	  LNT formal specification.<br></em><br />
-          <a href="http://www.java.com/download/" class="thin
-	  icon-download btn btn-primary" role="button">Download Java
-	  RE</a>
-          <div class="alert alert-info">
-            Note: IoT Composer requires JRE\JDK 1.8 and above.
-          </div>
-        </li>
-        <li>Apache Tomcat Server 8.0<br />
-          <em>This is needed for deploying and hosting the IoT Composer Web Archive (WAR)<br /> </em>
-          <em>More information about tomcat deployment can be found 
-            <a href="https://tomcat.apache.org/tomcat-8.0-doc/appdev/deployment.html">here </a> <br /></em>
-          <a href="http://tomcat.apache.org/download-80.cgi" class="thin
-    icon-download btn btn-primary" role="button">Download
-    Tomcat 8.0</a> <br />
-        </li>
-        <br />
-        <li>CADP toolbox<br>
-          <em>This is needed to perform formal analyses on
-	  the formal description files.</em><br />
+        <li>CADP toolbox <br />
+          <em>This is needed to perform formal analyses based on formal specification of the composition.</em><br />
           <a href="http://cadp.inria.fr/" class="thin
-	  icon-download btn btn-primary" role="button">Download CADP</a>
+	  icon-download btn btn-primary" role="button">Acquire CADP license</a>
         </li>
+    <li>IoT Recommendation Service <br />
+      <em>Used to get the initial device recommendation based on physical environment. 
+        It is a Bell Labs' solution. IoT composer connects to the service using the REST APIs provided by the service.
+        More information about the platform can be found in the following paper</em><br />
+      <a href="https://ieeexplore.ieee.org/document/7899397" class="thin
+	  icon-download btn btn-primary" role="button">IoT Recommendation Assistant</a>
+    </li>
+    <li>Majord'Home SDN-based Platform <br />
+      <em>Bell Labs'platform for IoT deployments. IoT Composer connects to the platform using REST APIs. Composer uses APIs to create SD-LANs and enable communication interfaces. 
+        More information about the platform can be found in the following paper</em><br />
+      <a href="https://ieeexplore.ieee.org/document/7014207" class="thin
+	  icon-download btn btn-primary" role="button">Majord'Home Platform</a>
+    </li>
       </ul>
-    </p>
+
 
     <h2>Browser Compatibility</h2>
 
