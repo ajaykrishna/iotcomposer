@@ -32,6 +32,8 @@ import com.labs.collab.majo.vo.IdsSetElementId;
 import com.labs.collab.majo.vo.PredicateIdPredicate;
 import com.labs.collab.majo.vo.RemotepartsSetCocoId;
 
+import fr.inria.convecs.iotcomposer.util.AppUtils;
+
 /**
  * @author ajayk
  *
@@ -39,15 +41,14 @@ import com.labs.collab.majo.vo.RemotepartsSetCocoId;
 public class MajordHomeService {
 
 	static final Logger LOGGER = LoggerFactory.getLogger(MajordHomeService.class);
-	private static final String REST_URI = "http://dummyurl.com/MajordHome";
 
 	private Client client = ClientBuilder.newClient();
 
 	public List<String> getDeviceList() throws JsonParseException, JsonMappingException, IOException {
 
-		Response response = client.target(REST_URI)
+		Response response = client.target(AppUtils.RECO_URL)
 				.path("virtualobjects")
-				.queryParam("user", "pwd")
+				.queryParam("user", AppUtils.RECO_USER)
 				.request(MediaType.APPLICATION_JSON)
 				.get();
 
@@ -94,7 +95,7 @@ public class MajordHomeService {
 		coCoData.setElems(Arrays.asList(elem));
 
 		ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
-		String json = null;
+		String json = "";
 		try {
 			json = objectWriter.writeValueAsString(elem);
 		} catch (JsonProcessingException e) {
@@ -107,9 +108,9 @@ public class MajordHomeService {
 		Entity<Elem> postContent = Entity.entity(elem, MediaType.APPLICATION_JSON);
 		LOGGER.debug("json: {}, post: {}", json, postContent);
 
-		Response response = client.target(REST_URI)
+		Response response = client.target(AppUtils.MAJO_URL)
 				.path("cocos")
-				.queryParam("user", "LN")
+				.queryParam("user", AppUtils.RECO_USER)
 				.request(MediaType.APPLICATION_JSON)
 				.post(postContent);
 
@@ -121,10 +122,10 @@ public class MajordHomeService {
 
 	public List<String> getDeviceByVspace(String vspace) throws JsonParseException, JsonMappingException, IOException {
 
-		Response response = client.target(REST_URI)
+		Response response = client.target(AppUtils.MAJO_URL)
 				.path("virtualobjects")
 				.path(vspace)
-				.queryParam("user", "pwd")
+				.queryParam("user", AppUtils.RECO_USER)
 				.request(MediaType.APPLICATION_JSON)
 				.get();
 
@@ -143,9 +144,9 @@ public class MajordHomeService {
 	
 	public List<String> getListVspace() throws JsonParseException, JsonMappingException, IOException {
 
-		Response response = client.target(REST_URI)
+		Response response = client.target(AppUtils.MAJO_URL)
 				.path("vspace")
-				.queryParam("user", "pwd")
+				.queryParam("user", AppUtils.RECO_USER)
 				.request(MediaType.APPLICATION_JSON)
 				.get();
 
