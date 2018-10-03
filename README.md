@@ -15,11 +15,7 @@ Hosting of the web app requires [Apache Tomcat 8.0](https://tomcat.apache.org/do
 Once you have the web app running, you can access the application 
 using the following web page (assuming tomcat is running locally on port 8080)
 
-http://localhost:8080/iotcomposer/login.html  
-
-If you need sample object models to try, you can download it from the site
-
-[**Download IoT Object Models**](https://ajaykrishna.github.io/iotcomposer/downloads/models.zip) 
+http://localhost:8080/iotcomposer/composer.html
 
 For more information, you can visit the IoT Composer site - https://ajaykrishna.github.io/iotcomposer/
 
