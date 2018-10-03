@@ -34,7 +34,7 @@ public class LntGeneratorTest {
 		Timer timer = new Timer();
 
 		ModelService service = new ModelService();
-		ConnectedObject co1 = service.getModelByName("sensor-thermo/sensor");
+		ConnectedObject co1 = service.getModelByName("sensor-thermo/lightsensor");
 
 		LntProcessGenerator lpg1 = new LntProcessGenerator(co1);
 		lpg1.generateLntProcess();

@@ -1,0 +1,16 @@
+[ {
+  "id" : "xbHSv",
+  "source" : "VoId_135_Savoc#VoId_135_Savoc@on",
+  "target" : "VoId_126_Savoc#VoId_126_Savoc@on",
+  "type" : "WEAK"
+}, {
+  "id" : "bXJR2",
+  "source" : "VoId_135_Savoc#VoId_135_Savoc@off",
+  "target" : "VoId_126_Savoc#VoId_126_Savoc@off",
+  "type" : "WEAK"
+}, {
+  "id" : "m4HQN",
+  "source" : "VoId_121_Savoc#VoId_121_Savoc@alert",
+  "target" : "VoId_135_Savoc#VoId_135_Savoc@alert",
+  "type" : "STRONG"
+} ]

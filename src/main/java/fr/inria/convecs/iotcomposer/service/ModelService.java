@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,6 +23,8 @@ import fr.inria.convecs.iotcomposer.model.ConnectedObject;
  *
  */
 public class ModelService {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ModelService.class);
 	
 	public ConnectedObject getModelByName(String name) throws JsonParseException, JsonMappingException, IOException {
 		

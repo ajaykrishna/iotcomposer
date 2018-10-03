@@ -1,6 +1,11 @@
 package fr.inria.convecs.iotcomposer.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Timer {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(ComposerExceptionMapper.class);
 
 	private long startTime;
 

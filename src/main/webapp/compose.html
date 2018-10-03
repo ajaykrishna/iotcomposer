@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Standard Meta -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <!-- Site Properties -->
+    <title>IoT Composer</title>
+    <link rel="stylesheet" type="text/css" href="semantic/semantic.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/vis.css">
+
+    <script src="assets/library/jquery-3.3.1.js"></script>
+    <script src="semantic/semantic.js"></script>
+    <script src="assets/library/vis.js"></script>
+    <script src="assets/library/json-to-table.js"></script>
+
+    <style type="text/css">
+        body {
+            background-color: #e6e6e6;
+            font-family: 'Open Sans', sans-serif;
+            margin-bottom: 60px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .ui .message {
+            padding-top: 30px !important;
+            padding-bottom: 50px !important;
+        }
+
+        .ui .button {
+            text-transform: capitalize;
+        }
+
+        #dependencycontainer {
+            width: 300px;
+            height: 300px;
+            border: 1px solid lightgray;
+        }
+
+        .floatedTable {
+            float: left;
+        }
+    </style>
+    <script>
+        
+        var bindData;
+
+        /*  function vspaces(callback) {
+             $.get("http://localhost:8080/iotcomposer/api/majo/vspaces").done(function (data) {
+                 dropdownloader(data);
+             });
+         } */
+
+        function create2DArray(rows) {
+            var arr = [];
+
+            for (var i = 0; i < rows; i++) {
+                arr[i] = [];
+            }
+
+            return arr;
+        }
+
+        $(document).ready(function () {
+
+            $("#api").hide();
+            $("#verify").hide();
+            $("#deploy").hide();
+            $("#sdn").hide();
+            $("#incompat").hide();
+
+            //for testing
+            var spaces = [{ "value": "lr", "name": "Living Room" }, { "value": "kt", "name": "Kitchen" }, { "value": "br", "name": "Bedroom" }];
+            $('.ui.dropdown')
+                .dropdown({
+                    values: spaces
+                });
+
+            $("#reco-btn").click(function () {
+
+                var dvalue = $('.ui.dropdown').dropdown('get value');
+
+                $.ajax({
+                    url: 'http://localhost:8080/iotcomposer/api/majo/vspace/' + dvalue,
+                    type: 'GET',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    error: function (returnData) {
+                        console.log("error getting devices");
+                    },
+                    success: function (returnData) {
+                        console.log(returnData);
+                        var inItfList = [];
+                        var outItfList = [];
+                        var devList = [];
+                        var devJson = JSON.parse(JSON.stringify(returnData));
+
+                        var maxSize = 0;
+                        for (i = 0; i < devJson.length; i++) {
+                            $('#devicetable >thead').append('<th>' + devJson[i].device + '</th>');
+                            var size = devJson[i].inItfs.length + devJson[i].outItfs.length;
+                            if (size > maxSize) {
+                                maxSize = size;
+                            }
+                            outItfList = outItfList.concat(devJson[i].outItfs);
+                            inItfList = inItfList.concat(devJson[i].inItfs);
+                        }
+                        var outs = [];
+                        outItfList.forEach(function (element) {
+                            var x = { "title": element };
+                            outs.push(x);
+                        });
+
+                        var ins = [];
+                        inItfList.forEach(function (element) {
+                            var x = { "title": element };
+                            ins.push(x);
+                        });
+
+
+                        $("#outitf")
+                            .search({
+                                source: outs
+                            });
+                        $("#initf")
+                            .search({
+                                source: ins
+                            });
+
+                        var table = create2DArray(maxSize);
+
+                        for (i = 0; i < devJson.length; i++) {
+                            var size = devJson[i].inItfs.length + devJson[i].outItfs.length;
+                            var itfs = (devJson[i].inItfs).concat((devJson[i].outItfs));
+                            for (j = 0; j < size; j++) {
+                                table[j][i] = itfs[j];
+                            }
+                        }
+
+                        var tr = '';
+                        for (i = 0; i < maxSize; i++) {
+                            var td = '';
+                            for (j = 0; j < devJson.length; j++) {
+                                var data = table[i][j];
+                                if (data == undefined) {
+                                    data = ''
+                                }
+                                td = td + '<td>' + data + '</td>';
+                            }
+                            tr = '<tr>' + td + '</tr>'
+                            $('#devicetable > tbody:last-child').append(tr);
+                        }
+
+                    }
+                });
+                $("#api").show();
+            });
+
+            $("#api-btn").click(function () {
+
+                var bindingList = [];
+                var rowvalue = [];
+                $("#bindingtable tbody > tr").each(function (i, v) {
+                    rowvalue[i] = $('td', this).map(function () {
+                        return $(this).text()
+                    }).get()
+                    bindingList.push(rowvalue[i]);
+                });
+
+
+                var bindListJson = [];
+                bindingList.forEach(function (element) {
+                    var type = element[0];
+                    if (type == "Y") {
+                        type = "WEAK";
+                    }
+                    else {
+                        type = "STRONG";
+                    }
+                    var source = element[1];
+                    var target = element[2];
+                    let obj =
+                    {
+                        "id": source + target,
+                        "source": source,
+                        "target": target,
+                        "type": type
+                    }
+
+                    bindListJson.push(obj);
+                });
+
+                bindData = JSON.stringify(bindListJson);
+
+                $.ajax({
+                    url: 'http://localhost:8080/iotcomposer/api/deployment/dependency/',
+                    type: 'POST',
+                    data: bindData,
+                    dataType: 'text',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    error: function (returnData) {
+                        console.log("error getting dependency")
+                    },
+                    success: function (returnData) {
+                        $("#verify").show();
+                        var parsedData = vis.network.convertDot(returnData);
+
+                        var data = {
+                            nodes: parsedData.nodes,
+                            edges: parsedData.edges
+                        }
+
+                        // create a network
+                        var container = $("#dependencycontainer")[0];
+                        var options = {
+                            nodes: {
+                                shape: 'dot',
+                                size: 32
+                            },
+                            physics: {
+                                forceAtlas2Based: {
+                                    gravitationalConstant: -26,
+                                    centralGravity: 0.005,
+                                    springLength: 230,
+                                    springConstant: 0.18
+                                },
+                                maxVelocity: 146,
+                                solver: 'forceAtlas2Based',
+                                timestep: 0.35,
+                                stabilization: { iterations: 150 }
+                            }
+                        };
+
+                        var network = new vis.Network(container, data, options);
+                    }
+                });
+            });
+
+            $("#verify-btn").click(function () {
+                $.ajax({
+                    url: 'http://localhost:8080/iotcomposer/api/compat/check/',
+                    type: 'POST',
+                    data: bindData,
+                    dataType: 'json',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    error: function (returnData) {
+                        console.log("error getting dependency")
+                    },
+                    success: function (returnData) {
+                        var status = returnData.result;
+                        var message = returnData.message;
+
+                        if (Boolean(status) == false) {
+                            $("#incompat").show();
+                            $("#deploycontent").append("<p>INCOMPATIBLE" + message + "</p>");
+                        }
+                        else {
+                            $("#incompat").show();
+                        }
+
+                    }
+                });
+            });
+
+
+            $("#bind-btn").click(function () {
+                var outitfname = $("#outitfname").val();
+                var initfname = $("#initfname").val();
+                var opt = '';
+                if ($('[name="weak"]').is(':checked')) {
+                    //console.log($('[name="weak"]').is(':checked'));
+                    opt = 'Y';
+                }
+
+                $('#bindingtable > tbody:last-child').append(
+                    '<tr>'
+                    + '<td>' + opt + '</td>'
+                    + '<td>' + outitfname + '</td>'
+                    + '<td>' + initfname + '</td>'
+                    + '<td> <i class="trash alternate icon"></i> </td>'
+                    + '</tr>');
+
+                $("#outitfname").val('');
+                $("#initfname").val('');
+                $('[name="weak"]').prop('checked', true);
+            });
+
+            $("#bindingtable").on('click', '.trash.alternate.icon', function () {
+                $(this).closest('tr').remove();
+            });
+
+            $("#deploy-btn").click(function () {
+                $.ajax({
+                    url: 'http://localhost:8080/iotcomposer/api/deployment/plan/',
+                    type: 'POST',
+                    data: bindData,
+                    dataType: 'json',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    error: function (returnData) {
+                        console.log("error getting plan")
+                    },
+                    success: function (returnData) {
+                        $.ajax({
+                            url: 'http://localhost:8080/iotcomposer/api/majo/deploy/',
+                            type: 'POST',
+                            data: returnData,
+                            dataType: 'json',
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            error: function (returnData) {
+                                $("#deploycontent").append("<p>Deployment failed :-(</p>")
+                                $("#sdn").show();
+                            },
+                            success: function (returnData) {
+                                $("#deploycontent").append("<p>Deployment Successful!</p>")
+                                $("#sdn").show();
+                            }
+                        });
+                    }
+                });
+            });
+
+            $("#restart").click(function () {
+                location.reload();
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="ui centered container">
+        <div class="ui text menu">
+            <div class="ui container">
+                <a class="ui image header">
+                    <img src="assets/images/inria.png" class="image">
+                    <img src="assets/images/bell-labs.png" class="image">
+                </a>
+                <div class="header item">IoT Composer</div>
+                <div class="right menu">
+                    <a class="item" href="home.html">Home</a>
+                    <a class="item" href="compose.html">Compose & Deploy</a>
+                    <a class="item" href="">About Us</a>
+                    <a class="item" href="">Contact</a>
+                </div>
+            </div>
+        </div>
+        <div class="ui divider"></div>
+        <div class="ui three column center aligned grid">
+            <div class="column">
+
+            </div>
+            <div class="column">
+                <div id="reco">
+                    <div class="row">
+                        <h3 class="ui blue header">
+                            Service Recommendation
+                        </h3>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="ui fluid selection dropdown" id="dropdownvspace">
+                            <div class="text">Select Space</div>
+                            <i class="dropdown icon"></i>
+                        </div>
+                    </div>
+                    <br /> <br />
+                    <div class="row">
+                        <div tabindex="0" class="ui animated primary button" id="reco-btn">
+                            <div class="visible content">Get Service Recommendation</div>
+                            <div class="hidden content">
+                                <i class="angle double down icon"></i>
+                            </div>
+                        </div>
+                        <div class="ui divider"></div>
+                    </div>
+                </div>
+                <div id="api">
+                    <div class="row">
+                        <h3 class="ui blue header">
+                            API Interfaces
+                        </h3>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div id="tablediv">
+                            <table class="ui celled table" id="devicetable">
+                                <thead>
+
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <br />
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Weak?
+                                    </th>
+                                    <th>
+                                        Output Interfaces
+                                    </th>
+                                    <th>
+                                        Input Interfaces
+                                    </th>
+                                    <th>
+
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td>
+                                    <div class="ui toggle checkbox">
+                                        <input name="weak" type="checkbox">
+                                        <label></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="ui search" id="outitf">
+                                        <input class="prompt" type="text" placeholder="Out Itf..." id="outitfname">
+                                        <div class="results"></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="ui search" id="initf">
+                                        <input class="prompt" type="text" placeholder="In Itf..." id="initfname">
+                                        <div class="results"></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div tabindex="0" class="ui animated teal button" id="bind-btn">
+                                        <div class="visible content">Bind</div>
+                                        <div class="hidden content">
+                                            <i class="right arrow icon"></i>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <h5 class="ui grey header">Bindings</h5>
+                        <table class="ui celled table" id="bindingtable">
+                            <thead>
+                                <tr>
+                                    <th>Weak?</th>
+                                    <th class="center aligned">
+                                        Output
+                                    </th>
+                                    <th class="center aligned">
+                                        Input
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                        <br />
+                        <div tabindex="0" class="ui animated secondary button" id="api-btn">
+                            <div class="visible content">Generate Bindings</div>
+                            <div class="hidden content">
+                                <i class="angle double down icon"></i>
+                            </div>
+                        </div>
+                        <div class="ui divider"></div>
+                    </div>
+                </div>
+                <div id="verify">
+                    <div class="row">
+                        <h3 class="ui blue header">
+                            Dependencies and Compatibility
+                        </h3>
+                    </div>
+                    <br />
+                    <div id="dependencycontainer">
+
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div tabindex="0" class="ui animated secondary button" id="verify-btn">
+                            <div class="visible content">Verify</div>
+                            <div class="hidden content">
+                                <i class="angle double down icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="incompat">
+                    <br />
+                    <div class="item">
+                        <div id="incompatmsg">
+
+                        </div>
+                    </div>
+                    <br /> <br />
+                    <div class="row">
+                        <div class="content">
+                            <button class="ui primary button" id="restart">
+                                Restart
+                            </button>
+                        </div>
+                    </div>
+                    <div class="ui divider"></div>
+                </div>
+                <div id="deploy">
+                    <br />
+                    <div class="ui list">
+                        <div class="item">
+                            <i class="green check circle outline icon"></i>
+                            <div class="content">
+                                Deadlock Freedom
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="green check circle outline icon"></i>
+                            <div class="content">
+                                Compatibility Check
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h3 class="ui blue header">
+                            Deployment
+                        </h3>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div tabindex="0" class="ui animated secondary button" id="deploy-btn">
+                            <div class="visible content">Deploy</div>
+                            <div class="hidden content">
+                                <i class="angle double down icon"></i>
+                            </div>
+                        </div>
+                        <div class="ui divider"></div>
+                    </div>
+                </div>
+                <div id="sdn">
+                    <div class="ui green header">
+                        <i class="green check circle outline icon large"></i>
+                        <div class="content" id="deploycontent">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

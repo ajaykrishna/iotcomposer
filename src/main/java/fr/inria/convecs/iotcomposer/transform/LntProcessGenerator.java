@@ -11,16 +11,22 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import fr.inria.convecs.iotcomposer.model.AppInterface;
 import fr.inria.convecs.iotcomposer.model.ConnectedObject;
 import fr.inria.convecs.iotcomposer.model.State;
 import fr.inria.convecs.iotcomposer.model.Transition;
+import fr.inria.convecs.iotcomposer.util.ComposerExceptionMapper;
 
 /**
  * @author ajayk
  *
  */
 public class LntProcessGenerator {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(LntProcessGenerator.class);
 
 	private ConnectedObject cObject;
 

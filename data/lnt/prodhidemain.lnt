@@ -1,6 +1,6 @@
 module prodhidemain(prodall) with "get" is 
 process MAIN [display:any,increase:any,decrease:any] is 
-hide display:any in 
+hide display:any,increase:any,decrease:any in 
 prod [display,increase,decrease] 
 end hide 
 end process

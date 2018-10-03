@@ -1,0 +1,24 @@
+module VoId_121_Savoc with "get" is 
+ process idle[VoId_121_Savoc@motion:any,VoId_121_Savoc@alert:any,VoId_121_Savoc@shutteron:any,VoId_121_Savoc@shutteroff:any] is 
+  VoId_121_Savoc@shutteron; 
+  capturing(VoId_121_Savoc@motion,VoId_121_Savoc@alert,VoId_121_Savoc@shutteron,VoId_121_Savoc@shutteroff) 
+ end process 
+ process capturing[VoId_121_Savoc@motion:any,VoId_121_Savoc@alert:any,VoId_121_Savoc@shutteron:any,VoId_121_Savoc@shutteroff:any] is 
+  select
+  VoId_121_Savoc@motion; 
+  motion-detected(VoId_121_Savoc@motion,VoId_121_Savoc@alert,VoId_121_Savoc@shutteron,VoId_121_Savoc@shutteroff) 
+  []
+  VoId_121_Savoc@shutteroff; 
+  motion-detected(VoId_121_Savoc@motion,VoId_121_Savoc@alert,VoId_121_Savoc@shutteron,VoId_121_Savoc@shutteroff) 
+  end select
+ end process 
+ process motion-detected[VoId_121_Savoc@motion:any,VoId_121_Savoc@alert:any,VoId_121_Savoc@shutteron:any,VoId_121_Savoc@shutteroff:any] is 
+  select
+  VoId_121_Savoc@alert; 
+  capturing(VoId_121_Savoc@motion,VoId_121_Savoc@alert,VoId_121_Savoc@shutteron,VoId_121_Savoc@shutteroff) 
+  []
+  VoId_121_Savoc@shutteroff; 
+  capturing(VoId_121_Savoc@motion,VoId_121_Savoc@alert,VoId_121_Savoc@shutteron,VoId_121_Savoc@shutteroff) 
+  end select
+ end process 
+end module

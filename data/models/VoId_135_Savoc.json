@@ -1,0 +1,40 @@
+{
+  "id" : "VoId_135_Savoc",
+  "appInterfaces" : [ {
+    "id" : "VoId_135_Savoc@on",
+    "type" : "NETWORKOUT"
+  }, {
+    "id" : "VoId_135_Savoc@off",
+    "type" : "NETWORKOUT"
+  }, {
+    "id" : "VoId_135_Savoc@alert",
+    "type" : "NETWORKIN"
+  } ],
+  "lts" : {
+    "states" : [ {
+      "id" : "StateOn",
+      "transitions" : [ {
+        "source" : "StateOn",
+        "target" : "StateOff",
+        "action" : "VoId_135_Savoc@off"
+      }, {
+        "source" : "StateOff",
+        "target" : "StateOff",
+        "action" : "VoId_135_Savoc@alert"
+      } ]
+    }, {
+      "id" : "StateOff",
+      "transitions" : [ {
+        "source" : "StateOff",
+        "target" : "StateOn",
+        "action" : "VoId_135_Savoc@on"
+      }, {
+        "source" : "StateOff",
+        "target" : "StateOff",
+        "action" : "VoId_135_Savoc@alert"
+      } ]
+    } ],
+    "initialState" : "StateOff",
+    "actions" : [ "VoId_135_Savoc@on", "VoId_135_Savoc@off", "VoId_135_Savoc@alert" ]
+  }
+}

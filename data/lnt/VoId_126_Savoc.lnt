@@ -1,0 +1,10 @@
+module VoId_126_Savoc with "get" is 
+ process StateOn[VoId_126_Savoc@on:any,VoId_126_Savoc@off:any] is 
+  VoId_126_Savoc@off; 
+  StateOff(VoId_126_Savoc@on,VoId_126_Savoc@off) 
+ end process 
+ process StateOff[VoId_126_Savoc@on:any,VoId_126_Savoc@off:any] is 
+  VoId_126_Savoc@on; 
+  StateOn(VoId_126_Savoc@on,VoId_126_Savoc@off) 
+ end process 
+end module

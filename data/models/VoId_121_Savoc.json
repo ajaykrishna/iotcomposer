@@ -1,0 +1,50 @@
+{
+    "id" : "VoId_121_Savoc",
+    "appInterfaces" : [ {
+      "id" : "VoId_121_Savoc@motion",
+      "type" : "NETWORKIN"
+    }, {
+      "id" : "VoId_121_Savoc@alert",
+      "type" : "NETWORKOUT"
+    }, {
+      "id" : "VoId_121_Savoc@shutteron",
+      "type" : "PHYSICALIN"
+    }, {
+      "id" : "VoId_121_Savoc@shutteroff",
+      "type" : "PHYSICALIN"
+    } ],
+    "lts" : {
+      "states" : [ {
+        "id" : "idle",
+        "transitions" : [ {
+          "source" : "idle",
+          "target" : "capturing",
+          "action" : "VoId_121_Savoc@shutteron"
+        } ]
+      }, {
+        "id" : "capturing",
+        "transitions" : [ {
+          "source" : "capturing",
+          "target" : "motion-detected",
+          "action" : "VoId_121_Savoc@motion"
+        }, {
+          "source" : "capturing",
+          "target" : "idle",
+          "action" : "VoId_121_Savoc@shutteroff"
+        } ]
+      }, {
+        "id" : "motion-detected",
+        "transitions" : [ {
+          "source" : "motion-detected",
+          "target" : "capturing",
+          "action" : "VoId_121_Savoc@alert"
+        }, {
+          "source" : "motion-detected",
+          "target" : "idle",
+          "action" : "VoId_121_Savoc@shutteroff"
+        } ]
+      } ],
+      "initialState" : "idle",
+      "actions" : [ "VoId_121_Savoc@motion", "VoId_121_Savoc@alert", "VoId_121_Savoc@shutteron", "VoId_121_Savoc@shutteroff" ]
+    }
+  }

@@ -26,10 +26,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
 import fr.inria.convecs.iotcomposer.model.Binding;
+import fr.inria.convecs.iotcomposer.model.CoDto;
 import fr.inria.convecs.iotcomposer.model.DeploymentPlan;
 import fr.inria.convecs.iotcomposer.model.Step;
 import fr.inria.convecs.iotcomposer.model.Step.StepOperation;
 import fr.inria.convecs.iotcomposer.service.MajordHomeService;
+import fr.inria.convecs.iotcomposer.util.ComposerExceptionMapper;
 
 /**
  * @author ajayk
@@ -40,75 +42,97 @@ import fr.inria.convecs.iotcomposer.service.MajordHomeService;
 public class MajordHomeResource {
 
 	static final Logger LOGGER = LoggerFactory.getLogger(MajordHomeResource.class);
-	
+
 	private MajordHomeService service = new MajordHomeService();
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/devices")
-	public Response getDeviceList () throws JsonParseException, JsonMappingException, IOException {
+	public Response getDeviceList () {
 
-		List<String> devices = service.getDeviceList();
+		try {
 
-		ObjectMapper objectMapper = new ObjectMapper();
-		ObjectWriter objectWriter = objectMapper.writer().withDefaultPrettyPrinter();
-		String result = objectWriter.writeValueAsString(devices);
+			List<String> devices = service.getDeviceList();
 
-		return Response.status(200).entity(result).build();
+			ObjectMapper objectMapper = new ObjectMapper();
+			ObjectWriter objectWriter = objectMapper.writer().withDefaultPrettyPrinter();
+			String result = objectWriter.writeValueAsString(devices);
+
+			return Response.status(200).entity(result).build();
+
+		} catch(Exception e) {
+			throw ComposerExceptionMapper.createWebAppException(e);
+		}
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/vspaces")
-	public Response getVspaces () throws JsonParseException, JsonMappingException, IOException {
+	public Response getVspaces () {
 
-		List<String> devices = service.getListVspace();
+		try {
 
-		ObjectMapper objectMapper = new ObjectMapper();
-		ObjectWriter objectWriter = objectMapper.writer().withDefaultPrettyPrinter();
-		String result = objectWriter.writeValueAsString(devices);
+			List<String> devices = service.getListVspace();
 
-		return Response.status(200).entity(result).build();
+			ObjectMapper objectMapper = new ObjectMapper();
+			ObjectWriter objectWriter = objectMapper.writer().withDefaultPrettyPrinter();
+			String result = objectWriter.writeValueAsString(devices);
+			
+			return Response.status(200).entity(result).build();
+
+		} catch(Exception e) {
+			throw ComposerExceptionMapper.createWebAppException(e);
+		}
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/vspace/{id}")
-	public Response getDevices (@PathParam("id") String id) throws JsonParseException, JsonMappingException, IOException {
+	public Response getDevices (@PathParam("id") String id) {
+		try {
+			List<CoDto> devices = service.getDeviceByVspace(id);
 
-		List<String> devices = service.getDeviceByVspace(id);
+			ObjectMapper objectMapper = new ObjectMapper();
+			ObjectWriter objectWriter = objectMapper.writer().withDefaultPrettyPrinter();
+			String result = objectWriter.writeValueAsString(devices);
 
-		ObjectMapper objectMapper = new ObjectMapper();
-		ObjectWriter objectWriter = objectMapper.writer().withDefaultPrettyPrinter();
-		String result = objectWriter.writeValueAsString(devices);
+			return Response.status(200).entity(result).build();
 
-		return Response.status(200).entity(result).build();
+		} catch(Exception e) {
+			throw ComposerExceptionMapper.createWebAppException(e);
+		}
 	}
 
 	@Path("/deploy")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createVo(DeploymentPlan plan) throws JsonProcessingException {
+	public Response createVo(DeploymentPlan plan) {
 
-		MajordHomeService service = new MajordHomeService();
-		List<String> respValues = new ArrayList<String>();
+		try {
 
-		for (Step step: plan.getSteps()) {
-			if (step.getOperation().equals(StepOperation.BIND)) {
-				Binding binding = plan.getBindings().stream()
-						.filter(b -> b.getId()
-								.equals(step.getElement()))
-						.findFirst().get();
-				String resp = service.createCoCo(binding.getSource().getId().split("@")[0], binding.getTarget().getId().split("@")[0]);
-				respValues.add(resp);
+			MajordHomeService service = new MajordHomeService();
+			List<String> respValues = new ArrayList<String>();
+
+			for (Step step: plan.getSteps()) {
+				if (step.getOperation().equals(StepOperation.BIND)) {
+					Binding binding = plan.getBindings().stream()
+							.filter(b -> b.getId()
+									.equals(step.getElement()))
+							.findFirst().get();
+					String resp = service.createCoCo(binding.getSource().getId().split("@")[0], binding.getTarget().getId().split("@")[0]);
+					respValues.add(resp);
+				}
 			}
-		}
-		ObjectMapper objectMapper = new ObjectMapper();
-		ObjectWriter objectWriter = objectMapper.writer().withDefaultPrettyPrinter();
-		String result = objectWriter.writeValueAsString(respValues);
+			ObjectMapper objectMapper = new ObjectMapper();
+			ObjectWriter objectWriter = objectMapper.writer().withDefaultPrettyPrinter();
+			String result = objectWriter.writeValueAsString(respValues);
 
-		return Response.status(200).entity(result).build();
+			return Response.status(200).entity(result).build();
+
+		} catch(Exception e) {
+			throw ComposerExceptionMapper.createWebAppException(e);
+		}
 	}
 
 }

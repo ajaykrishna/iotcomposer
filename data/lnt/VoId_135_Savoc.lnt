@@ -1,0 +1,20 @@
+module VoId_135_Savoc with "get" is 
+ process StateOn[VoId_135_Savoc@on:any,VoId_135_Savoc@off:any,VoId_135_Savoc@alert:any] is 
+  select
+  VoId_135_Savoc@off; 
+  StateOff(VoId_135_Savoc@on,VoId_135_Savoc@off,VoId_135_Savoc@alert) 
+  []
+  VoId_135_Savoc@alert; 
+  StateOff(VoId_135_Savoc@on,VoId_135_Savoc@off,VoId_135_Savoc@alert) 
+  end select
+ end process 
+ process StateOff[VoId_135_Savoc@on:any,VoId_135_Savoc@off:any,VoId_135_Savoc@alert:any] is 
+  select
+  VoId_135_Savoc@on; 
+  StateOn(VoId_135_Savoc@on,VoId_135_Savoc@off,VoId_135_Savoc@alert) 
+  []
+  VoId_135_Savoc@alert; 
+  StateOn(VoId_135_Savoc@on,VoId_135_Savoc@off,VoId_135_Savoc@alert) 
+  end select
+ end process 
+end module

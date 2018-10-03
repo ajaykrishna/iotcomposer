@@ -14,6 +14,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
@@ -26,6 +29,8 @@ import fr.inria.convecs.iotcomposer.service.ModelService;
  */
 @Path("/models")
 public class ModelResource {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ModelResource.class);
 
 	@GET
 	@Path("/all")

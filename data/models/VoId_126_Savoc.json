@@ -1,0 +1,29 @@
+{
+  "id" : "VoId_126_Savoc",
+  "appInterfaces" : [ {
+    "id" : "VoId_126_Savoc@on",
+    "type" : "NETWORKIN"
+  }, {
+    "id" : "VoId_126_Savoc@off",
+    "type" : "NETWORKIN"
+  } ],
+  "lts" : {
+    "states" : [ {
+      "id" : "StateOn",
+      "transitions" : [ {
+        "source" : "StateOn",
+        "target" : "StateOff",
+        "action" : "VoId_126_Savoc@off"
+      } ]
+    }, {
+      "id" : "StateOff",
+      "transitions" : [ {
+        "source" : "StateOff",
+        "target" : "StateOn",
+        "action" : "VoId_126_Savoc@on"
+      } ]
+    } ],
+    "initialState" : "StateOff",
+    "actions" : [ "VoId_126_Savoc@on", "VoId_126_Savoc@off" ]
+  }
+}

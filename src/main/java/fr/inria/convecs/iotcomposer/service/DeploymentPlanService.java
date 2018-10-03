@@ -3,7 +3,9 @@
  */
 package fr.inria.convecs.iotcomposer.service;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,6 +14,9 @@ import java.util.Set;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.io.DOTExporter;
+import org.jgrapht.io.ExportException;
+import org.jgrapht.io.IntegerComponentNameProvider;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,10 +38,10 @@ import fr.inria.convecs.iotcomposer.resource.MajordHomeResource;
  *
  */
 public class DeploymentPlanService {
-	
+
 	static final Logger LOGGER = LoggerFactory.getLogger(DeploymentPlanService.class);
 
-	public List<String> generateDependencyGraph(List<BindingDto> bindings, Set<String> objects) {
+	public List<String> generateDependencyList(List<BindingDto> bindings, Set<String> objects) {
 		DefaultDirectedGraph<String, DefaultEdge> graph;
 
 		graph = new DefaultDirectedGraph<String, DefaultEdge>(
@@ -69,13 +74,34 @@ public class DeploymentPlanService {
 
 		List<Binding> bindingList = getBindings(bindings);
 
-		List<Step> steps = getDeploymentSteps(bindingList, generateDependencyGraph(bindings, objects));
+		List<Step> steps = getDeploymentSteps(bindingList, generateDependencyList(bindings, objects));
 
 		DeploymentPlan plan = new DeploymentPlan();
 		plan.setBindings(bindingList);
 		plan.setObjects(coList);
 		plan.setSteps(steps);
 		return plan;
+	}
+
+	public String generateDepependencyGraphinDot(List<BindingDto> bindings, Set<String> objects) throws ExportException, UnsupportedEncodingException {
+		DefaultDirectedGraph<String, DefaultEdge> graph;
+
+		graph = new DefaultDirectedGraph<String, DefaultEdge>(
+				DefaultEdge.class);
+		objects.forEach(obj -> graph.addVertex(obj));
+		bindings.forEach(b -> graph.addEdge(b.getSource().split("-")[0], b.getTarget().split("-")[0]));
+
+		DOTExporter<String, DefaultEdge> exporter = new DOTExporter<>(
+
+				vertex -> vertex, null, new IntegerComponentNameProvider<DefaultEdge>());
+
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+
+		exporter.exportGraph(graph, os);
+
+		String dotGraph = new String(os.toByteArray(), "UTF-8");
+		
+		return dotGraph;
 	}
 
 	private List<Step> getDeploymentSteps(List<Binding> bindingList, List<String> dependencyList) {

@@ -5,6 +5,7 @@ package fr.inria.convecs.iotcomposer.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,6 +33,10 @@ import com.labs.collab.majo.vo.IdsSetElementId;
 import com.labs.collab.majo.vo.PredicateIdPredicate;
 import com.labs.collab.majo.vo.RemotepartsSetCocoId;
 
+import fr.inria.convecs.iotcomposer.model.AppInterface;
+import fr.inria.convecs.iotcomposer.model.CoDto;
+import fr.inria.convecs.iotcomposer.model.ConnectedObject;
+import fr.inria.convecs.iotcomposer.model.InterfaceType;
 import fr.inria.convecs.iotcomposer.util.AppUtils;
 
 /**
@@ -120,7 +125,7 @@ public class MajordHomeService {
 
 	}
 
-	public List<String> getDeviceByVspace(String vspace) throws JsonParseException, JsonMappingException, IOException {
+	public List<CoDto> getDeviceByVspace(String vspace) throws JsonParseException, JsonMappingException, IOException {
 
 		Response response = client.target(AppUtils.MAJO_URL)
 				.path("virtualobjects")
@@ -139,9 +144,42 @@ public class MajordHomeService {
 		List<String> deviceId = deviceList.getElems().stream()
 				.map(e -> e.getId()).collect(Collectors.toList());
 
-		return deviceId;
+		//TODO: remove workaround: avoid connecting to data store
+		ModelService service = new ModelService();
+		List<CoDto> objects = new ArrayList<CoDto>();
+
+		//List<String> deviceId = Arrays.asList("lightsensor", "thermostat");
+
+		for(String device:deviceId) {
+
+			ConnectedObject co = service.getModelByName(device);
+
+			CoDto coDto = new CoDto();
+			coDto.setDevice(co.getId());
+
+			List<String> outItfs = new ArrayList<String>();
+			List<String> inItfs = new ArrayList<String>();
+
+			for(AppInterface itf: co.getAppInterfaces()) {
+				String name = device+"-"+itf.getId();
+				if(itf.getType().equals(InterfaceType.NETWORKIN)
+						||itf.getType().equals(InterfaceType.PHYSICALIN)) {
+					inItfs.add(name);
+				} else {
+					outItfs.add(name);
+				}
+
+				coDto.setInItfs(inItfs);
+				coDto.setOutItfs(outItfs);
+			}
+			
+			objects.add(coDto);
+
+		}
+		LOGGER.debug("CoDto: {}", objects);
+		return objects;
 	}
-	
+
 	public List<String> getListVspace() throws JsonParseException, JsonMappingException, IOException {
 
 		Response response = client.target(AppUtils.MAJO_URL)
@@ -157,9 +195,9 @@ public class MajordHomeService {
 		DeviceList deviceList = objectMapper
 				.readValue(responseJson, DeviceList.class);
 
-		List<String> deviceId = deviceList.getElems().stream()
+		List<String> vspaces = deviceList.getElems().stream()
 				.map(e -> e.getId()).collect(Collectors.toList());
 
-		return deviceId;
+		return vspaces;
 	}
 }

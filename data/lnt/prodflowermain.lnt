@@ -1,7 +1,7 @@
 module prodflowermain(prodall, flower) with "get" is 
 process MAIN [display:any,increase:any,decrease:any] is 
 par display,increase,decrease in 
-flower_idle[increase,decrease] 
+flower_idle[] 
 || 
 prod[display,increase,decrease] 
 end par

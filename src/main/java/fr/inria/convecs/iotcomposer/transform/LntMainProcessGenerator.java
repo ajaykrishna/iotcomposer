@@ -14,15 +14,21 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import fr.inria.convecs.iotcomposer.model.AppInterface;
 import fr.inria.convecs.iotcomposer.model.BindingDto;
 import fr.inria.convecs.iotcomposer.model.ConnectedObject;
+import fr.inria.convecs.iotcomposer.util.ComposerExceptionMapper;
 
 /**
  * @author ajayk
  *
  */
 public class LntMainProcessGenerator {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(LntMainProcessGenerator.class);
 
 	private List<BindingDto> bindings;
 	private List<ConnectedObject> objects;
@@ -56,7 +62,7 @@ public class LntMainProcessGenerator {
 					first = false;
 				}
 				else {
-					contentString.append("|| \n");
+					contentString.append("\n||\n");
 				}
 				contentString.append(String.join(", ", getBoundInterfaces(obj)));
 				contentString.append(" ->")
@@ -65,7 +71,7 @@ public class LntMainProcessGenerator {
 				.append(LntProcessGenerator.buildParams(interfaces, false));
 				contentString.append("]");
 			}
-			contentString.append("end par\n");
+			contentString.append("\nend par\n");
 			contentString.append("end process\n");
 			contentString.append("end module");
 			writer.write(contentString.toString());

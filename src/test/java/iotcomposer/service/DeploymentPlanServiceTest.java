@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javax.ws.rs.core.Response;
 
+import org.jgrapht.io.ExportException;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +47,7 @@ public class DeploymentPlanServiceTest {
 
 		Set objSet = new HashSet<String>(objects);
 
-		List<String> dependency = service.generateDependencyGraph(bindings, objSet);
+		List<String> dependency = service.generateDependencyList(bindings, objSet);
 
 		DeploymentPlan plan = service.generateDeploymentPlan(bindings, objSet);
 
@@ -57,14 +58,14 @@ public class DeploymentPlanServiceTest {
 
 		LOGGER.debug("plan: {}", json);
 
-		MajordHomeResource majordHomeResource = new MajordHomeResource();
-		Response resp = majordHomeResource.createVo(plan);
+		//MajordHomeResource majordHomeResource = new MajordHomeResource();
+		//Response resp = majordHomeResource.createVo(plan);
 		//String respValue = resp.readEntity(String.class);	
 		//LOGGER.debug("respvalue: {}", respValue);
 	}
 	
 	@Test
-	public void testDependency() throws JsonParseException, JsonMappingException, IOException {
+	public void testDependency() throws JsonParseException, JsonMappingException, IOException, ExportException {
 		DeploymentPlanService service = new DeploymentPlanService();
 
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -81,11 +82,14 @@ public class DeploymentPlanServiceTest {
 		objectNames.add("lightsensor");
 		objectNames.add("thermostat");
 
-		List<String> dependency = service.generateDependencyGraph(bindings, objectNames);
+		List<String> dependency = service.generateDependencyList(bindings, objectNames);
+		
+		String graph = service.generateDepependencyGraphinDot(bindings, objectNames);
 
 		//DeploymentPlan plan = service.generateDeploymentPlan(bindings, objSet);
 
 		LOGGER.debug("dependency: {}", dependency);
+		LOGGER.debug("graph: {}", graph);
 
 	}
 }
