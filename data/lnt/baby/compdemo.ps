@@ -1,0 +1,225 @@
+%!PS-Adobe-2.0
+%%Title: /home/silverquick/Documents/iotexample/baby/compdemo.bcg
+%%Creator: bcg_draw
+%%CreationDate: Wed Sep  5 13:14:47 2018
+%%Pages: 1
+%%BoundingBox: 0 0 595 842
+%%EndComments
+%%Page: 1 1
+
+% BCG_BEGIN_SECTION_1
+/vertex_radius { 12.000000 } def
+/arrow_shape_1 { 7 } def
+/arrow_shape_2 { 9 } def
+/arrow_shape_3 { 3 } def
+/Times-Roman findfont 10.000000 scalefont setfont
+/text_y_shift { -3 } def
+% BCG_END_SECTION_1
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                B C G
+% ----------------------------------------------------------------------------
+%   INRIA - Unite de Recherche Rhone-Alpes
+%   655, avenue de l'Europe
+%   38330 Montbonnot Saint Martin
+%   FRANCE
+% ----------------------------------------------------------------------------
+%   Module             :       bcg_draw_header.ps
+%   Auteurs            :       R. RUFFIOT, H. GARAVEL, R. MATEESCU, L.P. TOCK
+%   Version            :       2.6
+%   Date               :       2006/10/30 10:38:31
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%/
+
+1 setlinewidth
+1 setlinejoin
+0 setgray
+
+/show_text {			
+  dup				
+  stringwidth			
+   pop				
+  -2 div			
+  text_y_shift rmoveto		
+  show   
+} def
+
+/vertex {			
+  newpath	
+  2 copy			
+  vertex_radius 0 360 arc	
+  stroke
+  moveto			
+  show_text	
+} def
+
+/arrow {                        
+  newpath 
+  /a3 2 1 roll def
+  /a2 2 1 roll def              
+  /a1 2 1 roll def   
+  0 0 moveto
+  a2 a1 sub neg a3 neg rlineto
+  a2 a3 rlineto
+  a2 neg a3 rlineto
+  closepath
+  fill
+} def
+
+/edge {			
+  newpath 
+  /h 2 1 roll def		
+  /y2 2 1 roll def		
+  /x2 2 1 roll def		
+  /y1 2 1 roll def		
+  /x1 2 1 roll def		
+  gsave
+    x1 y1 moveto
+    x2 y2 lineto
+    stroke
+    y2 y1 sub				
+    x2 x1 sub				
+    2 copy abs 2 1 roll abs add 0.0 eq	
+      {				
+      pop
+      pop
+      }
+      { 
+      atan                  	
+      x2 y2 translate
+      rotate                    
+      arrow_shape_1 h mul 	
+      arrow_shape_2 h mul 	
+      arrow_shape_3 h mul  	
+      arrow			
+      }    
+    ifelse
+  grestore
+  moveto			
+  show_text
+} def
+
+/spline {		
+  newpath
+  /h 2 1 roll def	
+  /y3 2 1 roll def	
+  /x3 2 1 roll def	
+  /y2 2 1 roll def	
+  /x2 2 1 roll def	
+  /y1 2 1 roll def	
+  /x1 2 1 roll def	
+  /y0 2 1 roll def	
+  /x0 2 1 roll def	
+  gsave
+    /c2 0.333 x0 mul
+        0.667 x1 mul
+        add def
+    /c3 0.333 y0 mul
+        0.667 y1 mul
+        add def  
+    /c6 0.5 x1 mul
+        0.5 x2 mul
+        add def
+    /c7 0.5 y1 mul
+        0.5 y2 mul
+        add def
+    /c4 0.333 c6 mul
+        0.667 x1 mul
+        add def
+    /c5 0.333 c7 mul
+        0.667 y1 mul
+        add def
+    x0 y0 moveto
+    c2 c3 c4 c5 c6 c7 curveto
+    /c2 0.333 c6 mul
+        0.667 x2 mul
+        add def
+    /c3 0.333 c7 mul
+        0.667 y2 mul
+        add def  
+    /c6 x3 def
+    /c7 y3 def
+    /c4 0.333 c6 mul
+        0.667 x2 mul
+        add def
+    /c5 0.333 c7 mul
+        0.667 y2 mul
+        add def
+    c2 c3 c4 c5 c6 c7 curveto
+    stroke
+    y3 y2 sub				
+    x3 x2 sub				
+    2 copy abs 2 1 roll abs add 0.0 eq	
+      {				
+      pop
+      pop
+      }
+      { 
+      atan              	
+      x3 y3 translate
+      rotate            	
+      arrow_shape_1 h mul 	
+      arrow_shape_2 h mul  	
+      arrow_shape_3 h mul  	
+      arrow
+      }
+    ifelse
+  grestore
+  moveto			
+  show_text
+  } def
+
+/initialisation { } def
+initialisation
+% BCG_BEGIN_SECTION_2
+(0) 305.500000 79.714286 vertex
+(1) 166.250000 185.142857 vertex
+(2) 444.750000 185.142857 vertex
+(3) 491.166667 290.571429 vertex
+(4) 119.833333 290.571429 vertex
+(5) 305.500000 290.571429 vertex
+(6) 166.250000 396.000000 vertex
+(7) 444.750000 396.000000 vertex
+(8) 166.250000 501.428571 vertex
+(9) 444.750000 501.428571 vertex
+(10) 166.250000 606.857143 vertex
+(11) 444.750000 606.857143 vertex
+(12) 305.500000 712.285714 vertex
+(SHUTTERON) 235.875000 132.428571 295.932783 86.957790 181.398094 173.673975 1.000000 edge % 0 1 0.500000
+(TVON) 375.125000 132.428571 315.067217 86.957790 429.601906 173.673975 1.000000 edge % 0 2 0.500000
+(MOTION) 278.517954 221.571429 177.664156 188.846509 473.094253 284.707313 1.000000 edge % 1 3 0.345528
+(SHUTTEROFF) 143.041667 237.857143 161.414685 196.125558 127.489249 273.182152 1.000000 edge % 1 4 0.500000
+(TVON) 235.875000 237.857143 175.817217 192.386362 290.351906 279.102546 1.000000 edge % 1 5 0.500000
+(SHUTTERON) 396.635163 221.571429 435.182783 192.386362 320.648094 279.102546 1.000000 edge % 2 5 0.345528
+(TVOFF) 467.958333 237.857143 449.585315 196.125558 483.510751 273.182152 1.000000 edge % 2 3 0.500000
+(SHUTTERON) 403.993902 262.285714 479.752510 286.867777 184.322414 191.006972 1.000000 edge % 3 1 0.268293
+(TVON) 476.920901 258.214286 486.331351 279.588727 452.405916 202.532134 1.000000 edge % 3 2 0.306911
+(MOTION) 143.041667 343.285714 124.668649 301.554130 158.594084 378.610723 1.000000 edge % 4 6 0.500000
+(TVON) 282.291667 343.285714 131.247490 294.275080 426.677586 390.135885 1.000000 edge % 4 7 0.500000
+(MOTION) 342.859756 262.285714 315.067217 283.327924 429.601906 196.611739 1.000000 edge % 5 2 0.268293
+(SHUTTEROFF) 375.125000 343.285714 315.067217 297.814933 429.601906 384.531118 1.000000 edge % 5 7 0.500000
+(TVOFF) 262.762703 258.214286 295.932783 283.327924 181.398094 196.611739 1.000000 edge % 5 1 0.306911
+(TVON) 166.250000 448.714286 166.250000 408.000000 166.250000 482.428571 1.000000 edge % 6 8 0.500000
+(MOTION) 305.500000 448.714286 433.527235 400.248474 184.019379 494.701820 1.000000 edge % 7 8 0.500000
+(ALERT) 444.750000 448.714286 444.750000 408.000000 444.750000 482.428571 1.000000 edge % 7 9 0.500000
+(TVOFF) 345.029641 363.642857 433.335844 392.296348 137.905747 296.435544 1.000000 edge % 7 4 0.306911
+(TVOFF) 166.250000 469.071429 166.250000 489.428571 166.250000 415.000000 1.000000 edge % 8 6 0.306911
+(MOTION) 305.500000 554.142857 433.527235 505.677046 184.019379 600.130392 1.000000 edge % 9 10 0.500000
+(TVOFF) 444.750000 554.142857 444.750000 513.428571 444.750000 587.857143 1.000000 edge % 9 11 0.500000
+(TVOFF) 235.875000 659.571429 175.817217 614.100647 290.351906 700.816832 1.000000 edge % 10 12 0.500000
+(MOTION) 375.125000 659.571429 435.182783 614.100647 320.648094 700.816832 1.000000 edge % 11 12 0.500000
+% BCG_END_SECTION_2
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                B C G
+% ----------------------------------------------------------------------------
+%   INRIA - Unite de Recherche Rhone-Alpes
+%   655, avenue de l'Europe
+%   38330 Montbonnot Saint Martin
+%   FRANCE
+% ----------------------------------------------------------------------------
+%   Module             :       bcg_draw_footer.ps
+%   Auteur             :       Renaud RUFFIOT
+%   Version            :       1.3
+%   Date               :       2013/09/09 10:10:05
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%/
+
+showpage
+%%EOF

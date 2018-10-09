@@ -1,0 +1,3 @@
+% CAESAR_OPEN_OPTIONS="-silent -warning"
+% CAESAR_OPTIONS="-more cat"
+"prodhidemain.bcg" = generation of "prodhidemain.lnt";

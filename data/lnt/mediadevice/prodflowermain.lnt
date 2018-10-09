@@ -1,0 +1,11 @@
+module prodflowermain(prodall, flower) with "get" is
+
+process MAIN [on:any, video:any, aux:any, audio:any] is
+	par on, video, aux, audio in
+		flower_idle [on, video, audio]
+	||
+		prod [on, video, aux, audio] 
+	end par
+end process
+
+end module

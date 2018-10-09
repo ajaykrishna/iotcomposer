@@ -1,0 +1,14 @@
+module prodall(thermo, sensorlight, envsensorlight, thermolight) with "get" is
+
+process prod [increase:any, decrease:any, display:any, on:any] is
+    par
+        increase, decrease, display -> temp[increase, decrease, display]
+    ||
+        increase, decrease, on -> light [increase, decrease, on]
+    ||
+        on, display -> env [on, display]
+    ||
+	increase, decrease -> night [increase, decrease]
+    end par
+end process
+end module

@@ -1,0 +1,15 @@
+module flower2 with "get" is
+
+process flower_idle2[on:any, video:any, audio:any] is 
+	loop
+	select
+		on
+	[]
+		video
+	[]
+		audio
+	end select
+	end loop
+end process
+
+end module

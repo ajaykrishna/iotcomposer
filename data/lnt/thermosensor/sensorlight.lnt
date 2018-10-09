@@ -1,0 +1,14 @@
+module sensorlight with "get" is 
+
+	process light[increase:any, decrease:any, on:any] is
+		on;
+		loop
+		select
+			increase
+		[]
+			decrease
+		end select
+		end loop
+	end process
+
+end module

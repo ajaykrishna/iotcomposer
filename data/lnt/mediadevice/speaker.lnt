@@ -1,0 +1,12 @@
+module speaker with "get" is
+
+process speaker_idle [audio:any] is 
+	audio;
+	speaker_exit [audio]
+end process
+
+process speaker_exit [audio:any] is
+	stop
+end process
+
+end module

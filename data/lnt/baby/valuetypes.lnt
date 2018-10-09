@@ -1,0 +1,8 @@
+module valuetypes with "get" is
+
+    type VALUETYPE is 
+        INTEGER, BOOLEAN, EPSILON
+        with "==","!="
+    end type
+
+end module

@@ -1,0 +1,13 @@
+module thermolight with "get" is 
+
+	process night[increase:any, decrease:any] is
+		increase;
+		day[increase, decrease]
+	end process
+
+	process day[increase:any, decrease:any] is
+		decrease;
+		night[increase, decrease]
+	end process
+
+end module

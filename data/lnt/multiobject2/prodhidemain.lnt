@@ -1,0 +1,15 @@
+module prodhidemain(prodall, prodall2) with "get" is
+
+process MAIN [alert:any, capture:any, open:any, switchon:any, switchoff:any, push:any, on:any, video:any, aux:any, audio:any] is
+		hide switchon:any, switchoff:any, aux:any in 
+		par
+			prod [alert, capture, open, switchon, switchoff, push]
+		||
+			prod2 [on, video, aux, audio]
+		||
+			prod2 [on, video, aux, audio]
+		end par
+		end hide
+end process
+
+end module

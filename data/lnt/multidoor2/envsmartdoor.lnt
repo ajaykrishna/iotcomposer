@@ -1,0 +1,9 @@
+module envsmartdoor with "get" is 
+	
+	process env[push:any] is
+		loop
+			push
+		end loop
+	end process
+	
+end module

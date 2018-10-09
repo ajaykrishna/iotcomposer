@@ -1,0 +1,33 @@
+module smartdoor with "get" is 
+
+	process idle[push:any, alert:any, capture:any, open:any] is 
+		push;
+		start[push, alert, capture, open]
+	end process
+	
+	process start[push:any, alert:any, capture:any, open:any] is 
+		select
+			capture;
+			cap1[push, alert, capture, open]
+		[]
+			alert;
+			alert1[push, alert, capture, open]
+		end select
+	end process
+	
+	process cap1[push:any, alert:any, capture:any, open:any] is 
+		alert;
+		syc[push, alert, capture, open]
+	end process
+	
+	process alert1[push:any, alert:any, capture:any, open:any] is 
+		alert;
+		syc[push, alert, capture, open]
+	end process
+	
+	process syc[push:any, alert:any, capture:any, open:any] is 
+		open;
+		idle[push, alert, capture, open]
+	end process
+	
+end module

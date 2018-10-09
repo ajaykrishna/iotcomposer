@@ -1,0 +1,18 @@
+module dlink5020l(valuetypes) with "get" is 
+
+process capturing[capture:any, alert:any] is
+	select
+		alert;
+		alertsent[capture, alert]
+	[]
+		capture;
+		capturing[capture, alert]
+	end select
+end process
+
+process alertsent[capture:any, alert:any] is
+	capture;
+	capturing[capture, alert]
+end process
+
+end module

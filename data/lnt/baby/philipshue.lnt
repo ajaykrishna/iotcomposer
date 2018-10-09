@@ -1,0 +1,13 @@
+module philipshue(valuetypes) with "get" is 
+
+process switchoff[switchon:any, switchoff:any] is
+	switchon;
+	switchon[switchon, switchoff]
+end process
+
+process switchon[switchon:any, switchoff:any] is
+	switchoff;
+	switchon[switchon, switchoff]
+end process
+
+end module

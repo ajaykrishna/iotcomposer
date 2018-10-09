@@ -1,0 +1,12 @@
+module prodall2(phone, mediadevice, speaker) with "get" is
+
+process prod2 [on:any, video:any, aux:any, audio:any] is
+    par
+        on, video -> phone_idle[on, video]
+    ||
+        on, video, audio -> mediadevice_idle [on, video, aux, audio]
+    ||
+        audio -> speaker_idle [audio]
+    end par
+end process
+end module

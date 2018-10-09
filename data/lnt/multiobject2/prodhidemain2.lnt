@@ -1,0 +1,9 @@
+module prodhidemain(prodall) with "get" is
+
+process MAIN [on:any, video:any, aux:any, audio:any] is
+	hide aux:any in
+		prod [on, video, aux, audio]
+	end hide
+end process
+
+end module

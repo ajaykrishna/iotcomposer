@@ -1,0 +1,17 @@
+module phone with "get" is
+
+process phone_idle [on:any, video:any] is 
+	on;
+	phone_video [on, video]
+end process
+
+process phone_video [on:any, video:any] is
+	video;
+	phone_exit [on, video]		
+end process
+
+process phone_exit [on:any, video:any] is
+	stop
+end process
+
+end module

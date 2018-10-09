@@ -1,0 +1,27 @@
+module mediadevice with "get" is
+
+process mediadevice_idle [on:any, video:any, aux:any, audio:any] is 
+	select
+		on;
+		mediadevice_video [on, video, aux, audio]
+	[]
+		aux;
+		mediadevice_audio [on, video, aux, audio]
+	end select
+end process
+
+process mediadevice_video [on:any, video:any, aux:any, audio:any] is
+	video;
+	mediadevice_exit [on, video, aux, audio]		
+end process
+
+process mediadevice_audio [on:any, video:any, aux:any, audio:any] is
+	audio;
+	mediadevice_exit [on, video, aux, audio]		
+end process
+
+process mediadevice_exit [on:any, video:any, aux:any, audio:any] is
+	stop
+end process
+
+end module

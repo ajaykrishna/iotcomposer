@@ -1,0 +1,23 @@
+module phoneapp2(valuetypes) with "get" is 
+
+process idle[alert:any, switchon:any, switchoff:any] is
+	select
+		switchon;
+		lighton[alert, switchon, switchoff]
+	[]
+		alert;
+		alertrecvd[alert, switchon, switchoff]
+	end select
+end process
+
+process alertrecvd[alert:any, switchon:any, switchoff:any] is
+	switchon;
+	lighton[alert, switchon, switchoff]
+end process
+
+process lighton[alert:any, switchon:any, switchoff:any] is
+	switchoff;
+	idle[alert, switchon, switchoff]
+end process
+
+end module

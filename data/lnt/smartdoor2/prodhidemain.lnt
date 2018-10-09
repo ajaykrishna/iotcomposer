@@ -1,0 +1,7 @@
+module prodhidemain(prodall) with "get" is
+
+process MAIN [alert:any, capture:any, open:any, switchon:any, switchoff:any, push:any] is
+		prod [alert, capture, open, switchon, switchoff, push]
+end process
+
+end module

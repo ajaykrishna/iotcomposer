@@ -1,0 +1,13 @@
+module light with "get" is 
+
+	process offstate[switchon:any, switchoff:any] is
+		switchon;
+		onstate[switchon, switchoff]
+	end process
+
+	process onstate[switchon:any, switchoff:any] is
+		switchoff;
+		offstate[switchon, switchoff]
+	end process
+
+end module

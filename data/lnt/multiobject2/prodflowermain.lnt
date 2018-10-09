@@ -1,0 +1,19 @@
+module prodflowermain(prodall, flower, prodall2, flower2) with "get" is
+
+process MAIN [alert:any, capture:any, open:any, switchon:any, switchoff:any, push:any, on:any, video:any, aux:any, audio:any] is
+	par alert, capture, open, push, on, video, audio in
+		flower_idle [alert, capture, open, push]
+	||
+		prod [alert, capture, open, switchon, switchoff, push] 
+	||
+		flower_idle2 [on, video, audio]
+	||
+		prod2 [on, video, aux, audio] 
+	||
+		flower_idle2 [on, video, audio]
+	||
+		prod2 [on, video, aux, audio] 
+	end par
+end process
+
+end module

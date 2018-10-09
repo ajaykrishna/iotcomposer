@@ -1,0 +1,15 @@
+module thermo with "get" is 
+
+	process temp[increase:any, decrease:any, display:any] is
+		loop
+		select
+			increase
+		[]
+			decrease
+		[]
+			display
+		end select
+		end loop
+	end process
+
+end module

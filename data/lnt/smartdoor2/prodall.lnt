@@ -1,0 +1,14 @@
+module prodall(smartdoor, phoneapp, envsmartdoor, light) with "get" is
+
+process prod [alert:any, capture:any, open:any, switchon:any, switchoff:any, push:any] is
+    par
+        push, alert, capture, open -> idle[push, alert, capture, open]
+    ||
+        alert, capture, open, switchon, switchoff -> init [alert, capture, open, switchon, switchoff]
+    ||
+        push -> env [push]
+    ||
+        switchon, switchoff -> onstate[switchon, switchoff]
+    end par
+end process
+end module

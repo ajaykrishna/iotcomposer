@@ -1,0 +1,37 @@
+module phoneapp with "get" is 
+
+	process init[alert:any, capture:any, open:any, switchon:any, switchoff:any] is 
+		select
+			capture;
+			capphone[alert, capture, open, switchon, switchoff]
+		[]
+			alert;
+			alertphone[alert, capture, open, switchon, switchoff]
+		[]
+			switchon;
+			on[alert, capture, open, switchon, switchoff]
+		end select
+	end process
+
+	
+	process capphone[alert:any, capture:any, open:any, switchon:any, switchoff:any] is 
+		alert;
+		sync[alert, capture, open, switchon, switchoff]
+	end process
+	
+	process alertphone[alert:any, capture:any, open:any, switchon:any, switchoff:any] is 
+		alert;
+		sync[alert, capture, open, switchon, switchoff]
+	end process
+	
+	process on[alert:any, capture:any, open:any, switchon:any, switchoff:any] is 
+		switchoff;
+		init[alert, capture, open, switchon, switchoff]
+	end process
+	
+	process sync[alert:any, capture:any, open:any, switchon:any, switchoff:any] is 
+		open;
+		init[alert, capture, open, switchon, switchoff]
+	end process
+	
+end module

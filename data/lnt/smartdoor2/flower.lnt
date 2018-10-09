@@ -1,0 +1,21 @@
+module flower with "get" is
+
+process flower_idle[alert:any, capture:any, open:any, push:any, switchon:any, switchoff:any] is 
+	loop
+	select
+		alert
+	[]
+		capture
+	[]
+		open
+	[]
+		push
+	[]
+		switchon
+	[]
+		switchoff
+	end select
+	end loop
+end process
+
+end module

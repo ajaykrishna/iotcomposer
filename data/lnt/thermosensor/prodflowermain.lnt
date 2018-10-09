@@ -1,0 +1,11 @@
+module prodflowermain(prodall, flower) with "get" is
+
+process MAIN [increase:any, decrease:any, display:any, on:any] is
+	par increase, decrease, display, on in
+		flower_idle [increase, decrease, display, on]
+	||
+		prod [increase, decrease, display, on] 
+	end par
+end process
+
+end module

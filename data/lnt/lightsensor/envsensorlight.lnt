@@ -1,0 +1,13 @@
+module envsensorlight with "get" is 
+
+	process env[on:any, display:any] is
+		loop
+		select
+			on
+		[]
+			display
+		end select
+		end loop
+	end process
+
+end module

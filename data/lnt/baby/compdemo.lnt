@@ -1,0 +1,82 @@
+module compdemo with "get" is 
+
+process env [motion:any, shutteron:any, shutteroff:any] is
+	loop
+		select
+			shutteron
+		[] 	
+			motion
+		end select;
+		
+		select
+			motion
+		[]
+			shutteroff
+		end select
+	end loop
+end process
+
+process phone [tvon:any, alert:any, tvoff:any] is
+	loop
+		select
+			tvon
+		[] 	
+			alert
+		end select;
+		
+		select
+			alert
+		[]
+			tvoff
+		end select
+	end loop
+end process
+
+
+process b_state_idle [shutteroff:any, shutteron:any, motion:any, alert:any] is
+    shutteron;
+    b_state_capturing[shutteroff, shutteron, motion, alert]
+end process
+
+process b_state_capturing [shutteroff:any, shutteron:any, motion:any, alert:any] is
+    select
+        motion;
+        b_state_alertuser[shutteroff, shutteron, motion, alert]
+    []
+        shutteroff;
+        b_state_idle[shutteroff, shutteron, motion, alert]
+    end select
+end process
+
+process b_state_alertuser[shutteroff:any, shutteron:any, motion:any, alert:any] is
+    select
+        alert;
+        b_state_capturing[shutteroff, shutteron, motion, alert]
+    []
+        shutteroff;
+        b_state_idle[shutteroff, shutteron, motion, alert]
+    end select
+end process
+
+process baby [motion:any, shutteron:any, shutteroff:any, alert:any] is
+	b_state_idle[...]
+end process
+
+process tv [tvon:any, tvoff:any] is
+	loop
+		tvon;tvoff
+	end loop
+end process
+process Main [motion:any, shutteron:any, shutteroff:any, alert:any, tvon:any, tvoff:any] is
+	par
+		shutteroff, shutteron, alert, motion -> baby[shutteroff, shutteron, motion, alert]
+	||
+		tvon, tvoff -> tv[tvon, tvoff]
+	||
+		tvon, tvoff, alert -> phone[tvon, tvoff, alert]
+	||
+		shutteron, shutteroff, motion -> env[motion, shutteron, shutteroff]
+		
+	end par
+end process
+end module
